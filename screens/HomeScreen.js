@@ -6,7 +6,7 @@ import alarmImg from '../assets/alarm.png';
 import alarmOffImg from '../assets/alarmOff.png';
 import timerImg from '../assets/timer.png';
 import Modal from 'react-native-modal';
-import {supabase} from '../supabase';
+import { supabase } from '../supabase';
 import DatePicker from 'react-datepicker';
 
 
@@ -27,7 +27,7 @@ export default function HomeScreen({ navigation }) {
 
     const [seconds, setSeconds] = useState(0);
     const [minutes, setMinutes] = useState(0);
-    const [hours, setHours] = useState(1);
+    const [hours, setHours] = useState(0);
 
     const hrs = Array.from({ length: 24 }, (_, i) => i);
     const min = Array.from({ length: 60 }, (_, i) => i);
@@ -66,7 +66,7 @@ export default function HomeScreen({ navigation }) {
     //             Susceptible fungal or yeast infections of the skin, eyes, or ears are often treated by ketoconazole, typically as an active ingredient in topical (for the skin) products such as a shampoo, wipe, spray, or eye or ear ointment. Ketoconazole is rarely used for body-wide (systemic) infections from organisms such as cryptococcus, valley fever (coccidioidomycosis), aspergillus, candidiasis, and blastomycosis because digestive side effects are common with this medication.</CustomText>, pillsLeft: '1', dateRefill: '12/1/23', takeBy: '6:00 PM',
     //             notifications: false
     //     },
-      
+
     // ];
 
     // const medicineData = [
@@ -91,47 +91,46 @@ export default function HomeScreen({ navigation }) {
     // ];
     const fetchMedicineData = async () => {
         try {
-          const { data, error } = await supabase.from('Medicines').select('*');
-          // console.log(data);
-          console.log('error' + error);
-          if (error) {
-            throw error;
-          }
-          
-          const processedData = data.map((medicine) => ({
-            name: medicine.name,
-            info: medicine.info,
-          }));
-  
-          setMedicineData(processedData);
+            const { data, error } = await supabase.from('Medicines').select('*');
+            // console.log(data);
+            console.log('error' + error);
+            if (error) {
+                throw error;
+            }
+
+            const processedData = data.map((medicine) => ({
+                name: medicine.name,
+                info: medicine.info,
+            }));
+
+            setMedicineData(processedData);
         } catch (error) {
-          console.error('Error fetching medicine data:', error.message);
+            console.error('Error fetching medicine data:', error.message);
         }
-      };
+    };
 
     const fetchUserMedicineData = async () => {
-      try {
-          const { data, error } = await supabase.from('UserMedicines').select('*');
-          console.log(data);
-          console.log('error' + error);
-          if (error) {
-              throw error;
-          }
-          const processedUserData = data.map((medicine) => ({
-              name: medicine.name,
-              takeBy: medicine.takeBy,
-          }));
-  
-          setUserMedicineData(processedUserData);
+        try {
+            const { data, error } = await supabase.from('UserMedicines').select('*');
+            console.log(data);
+            console.log('error' + error);
+            if (error) {
+                throw error;
+            }
+            const processedUserData = data.map((medicine) => ({
+                name: medicine.name,
+                takeBy: medicine.takeBy,
+            }));
+
+            setUserMedicineData(processedUserData);
         } catch (error) {
-          console.error('Error fetching medicine data:', error.message);
+            console.error('Error fetching medicine data:', error.message);
         }
-      };
+    };
     useEffect(() => {
-        
         fetchMedicineData();
         fetchUserMedicineData();
-      }, []); 
+    }, []);
 
     useEffect(() => {
         let interval;
@@ -151,7 +150,7 @@ export default function HomeScreen({ navigation }) {
         } else if (isOn && (seconds > 0 || minutes > 0 || hours > 0)) {
             interval = setInterval(() => {
                 setSeconds(prevSeconds => prevSeconds - 1);
-            })
+            }, 1000);
         }
 
         const timer = setInterval(() => {
@@ -168,7 +167,7 @@ export default function HomeScreen({ navigation }) {
         }
     }, [isTimerEnded]);
 
-    
+
     const resetTimer = () => {
         setSeconds(0);
         setHours(0);
@@ -198,47 +197,48 @@ export default function HomeScreen({ navigation }) {
         setMedicinePickerVisible(false);
     };
 
-    const showMedicineAdder =() => {
+    const showMedicineAdder = () => {
         setMedicineAdderVisible(true);
     }
 
-    const hideMedicineAdder =() => {
+    const hideMedicineAdder = () => {
         setMedicineAdderVisible(false);
     }
 
 
-        const [medicineName, setMedicineName] = useState('');
-        const [takeByTime, setTakeByTime] = useState(new Date());
-      
-        const handleAddMedicine = async (e) => {
-          e.preventDefault();
-      
-          try {
+    const [medicineName, setMedicineName] = useState('');
+    const [takeByTime, setTakeByTime] = useState(new Date());
+
+    const handleAddMedicine = async (e) => {
+        e.preventDefault();
+
+        try {
             const { data, error } = await supabase
-              .from('UserMedicines')
-              .upsert(
-                [
-                  {
-                    name: medicineToAdd,
-                    takeBy: takeByData, 
-                  },
-                ],
-                { onConflict: ['name'] }
-              );
-            
+                .from('UserMedicines')
+                .upsert(
+                    [
+                        {
+                            name: medicineToAdd,
+                            takeBy: takeByData,
+                        },
+                    ],
+                    { onConflict: ['name'] }
+                );
+
             if (error) {
-              console.error('Failed to add medicine:', error.message);
+                console.error('Failed to add medicine:', error.message);
             } else {
-              console.log('Medicine added successfully:', data);
+                console.log('Medicine added successfully:', data);
             }
 
             setTakeByData('');
 
-          } catch (error) {
-            console.error(error);          }
-        };
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
-      
+
     return (
         <View style={{ flex: 1, alignItems: 'center' }}>
             <CustomText size={26} weight="bolder" color='black' style={{ fontSize: 30, fontWeight: 'bold', paddingTop: 20, paddingBottom: 10 }}>Welcome Back!</CustomText>
@@ -304,140 +304,115 @@ export default function HomeScreen({ navigation }) {
                             </View>
                         </TouchableOpacity>
 
-                        
+
 
                     </View>
                 </Modal >
 
             </View >
 
-            <View style={{ flex: 1, alignItems: 'center', paddingTop: 20}}>
-            <TouchableOpacity onPress={() => {showMedicinePicker(); setSelectedMedicine(0); fetchUserMedicineData();}}>
+            <View style={{ flex: 1, alignItems: 'center', paddingTop: 20 }}>
+                <TouchableOpacity onPress={() => { showMedicinePicker(); setSelectedMedicine(0); fetchUserMedicineData(); }}>
                     <View style={{ flexDirection: 'row', backgroundColor: '#e8c4e9', margin: 10, borderRadius: 10, padding: 10 }}>
-                    <CustomText style={{ padding: 5, color: '#246495', fontSize: 26 }}>
+                        <CustomText style={{ padding: 5, color: '#246495', fontSize: 26 }}>
                             {selectedMedicine != null ? userMedicineData[selectedMedicine].name : 'Select a Medicine'}
                         </CustomText>
                     </View>
                 </TouchableOpacity>
 
-            <Modal isVisible={medicinePickerVisible} onBackdropPress={hideMedicinePicker} style={{ flex: 1 }}>
+                <Modal isVisible={medicinePickerVisible} onBackdropPress={hideMedicinePicker} style={{ flex: 1 }}>
                     <View style={{ flexDirection: 'column', alignItems: 'center', height: 400, backgroundColor: "white", borderRadius: 20 }}>
-                    <CustomText style={{padding: 20, fontSize: 26, paddingTop: 30, color: '#2d221b'}}>Select Your Medicine:</CustomText>
+                        <CustomText style={{ padding: 20, fontSize: 26, paddingTop: 30, color: '#2d221b' }}>Select Your Medicine:</CustomText>
 
-                                <Picker
-                                    selectedValue={selectedMedicine}
-                                    onValueChange={(itemValue) => setSelectedMedicine(itemValue)}
-                                    style={{ width: 300 }}
-                                >
+                        <Picker
+                            selectedValue={selectedMedicine}
+                            onValueChange={(itemValue) => setSelectedMedicine(itemValue)}
+                            style={{ width: 300 }}
+                        >
 
-                                    {userMedicineData.map((medicine, index) => (
-                                        <Picker.Item key={index} label={medicine.name} value={index} />
-                                    ))}
-                                </Picker>
+                            {userMedicineData.map((medicine, index) => (
+                                <Picker.Item key={index} label={medicine.name} value={index} />
+                            ))}
+                        </Picker>
 
 
-                                <TouchableOpacity onPress={ () => {hideMedicinePicker();}} style={{ paddingTop: 15 }}>
+                        <TouchableOpacity onPress={() => { hideMedicinePicker(); }} style={{ paddingTop: 15 }}>
                             <View style={{ backgroundColor: 'lightgreen', borderRadius: 10, padding: 20 }}>
                                 <CustomText>Done</CustomText>
                             </View>
                         </TouchableOpacity>
-                            </View>
+                    </View>
                 </Modal>
 
-            {/* <CustomText style={{ padding: 20, fontSize: 20, color: '#0DC817' }}>Taken: {userMedicineData[].name}</CustomText> */}
-            
-            {/* <View style={{ backgroundColor: 'white', borderRadius: 10, padding: 20, alignItems: 'center', marginRight: 20, marginLeft: 20}}> */}
-            {selectedMedicine != null? (
-            <View style={{alignItems: 'center', padding: 20, backgroundColor: '#add8e6', borderRadius: 10}}><CustomText style={{ color: 'black', padding: 10, fontSize: 26 }}>
-            Take By: {userMedicineData[selectedMedicine].takeBy}
-                </CustomText>
-                <View style={{flexDirection: 'row', padding: 10}}>
-                    <Image source={alarmImg} style={{ width: 35, height: 35 }} />
-                <CustomText size={15} weight="bold" color='#8FC1FF' style={{ fontSize: 25, color: '#0DC817', paddingLeft: 15 }}>Notifications On</CustomText>
-                </View>
-                </View>) : (<View style={{alignItems: 'center', padding: 20, backgroundColor: 'white', borderRadius: 10, marginLeft: 30, marginRight: 30}}>
-                    <CustomText style={{textAlign: 'center', fontSize: 20 }}>Information about the medicine will appear here! To get started, please select one of your medicines above or add a new medicine below.
-                </CustomText>
-                </View>)}
-                
-            
-            {/* <View style={{ flexDirection: 'row', margin: 10 }}>
-                { selectedMedicine ? (userMedicineData[selectedMedicine].notifications ? (
-                    <View style={{flexDirection: 'row'}}>
-                    <Image source={alarmImg} style={{ width: 35, height: 35 }} />
-                <CustomText size={15} weight="bold" color='#8FC1FF' style={{ fontSize: 20, color: '#0DC817', padding: 10 }}>Notifications On</CustomText>
-                </View>
-                ) : (
-                    <View style={{flexDirection: 'row'}}>
-                <Image source={alarmImg} style={{ width: 35, height: 35 }} />
-                <CustomText size={15} weight="bold" color='#8FC1FF' style={{ fontSize: 20, color: 'red', padding: 10 }}>Notifications Off</CustomText>
-                </View>
-                )) : <CustomText style={{ padding: 0}}>No medicine selected yet.</CustomText>
-                }
-            </View> */}
-            {/* </View> */}
+                {/* <CustomText style={{ padding: 20, fontSize: 20, color: '#0DC817' }}>Taken: {userMedicineData[].name}</CustomText> */}
 
-            
+                {/* <View style={{ backgroundColor: 'white', borderRadius: 10, padding: 20, alignItems: 'center', marginRight: 20, marginLeft: 20}}> */}
+                {selectedMedicine != null ? (
+                    <View style={{ alignItems: 'center', padding: 20, backgroundColor: '#add8e6', borderRadius: 10 }}><CustomText style={{ color: 'black', padding: 10, fontSize: 26 }}>
+                        Take By: {userMedicineData[selectedMedicine].takeBy}
+                    </CustomText>
+                        <View style={{ flexDirection: 'row', padding: 10 }}>
+                            <Image source={alarmImg} style={{ width: 35, height: 35 }} />
+                            <CustomText size={15} weight="bold" color='#8FC1FF' style={{ fontSize: 25, color: '#0DC817', paddingLeft: 15 }}>Notifications On</CustomText>
+                        </View>
+                    </View>) : (<View style={{ alignItems: 'center', padding: 20, backgroundColor: 'white', borderRadius: 10, marginLeft: 30, marginRight: 30 }}>
+                        <CustomText style={{ textAlign: 'center', fontSize: 20 }}>Information about the medicine will appear here! To get started, please select one of your medicines above or add a new medicine below.
+                        </CustomText>
+                    </View>)}
+
+
             </View>
-            <View style={{padding: 20}}>
-            <TouchableOpacity onPress={showMedicineAdder} style={{ paddingTop: 15 }}>
-                            <View style={{ backgroundColor: '#B9E2A7', borderRadius: 10, padding: 20 }}>
-                                <Text>Click Here to Add a New Medicine</Text>
-                            </View>
-            </TouchableOpacity>
+            <View style={{ padding: 20 }}>
+                <TouchableOpacity onPress={showMedicineAdder} style={{ paddingTop: 15 }}>
+                    <View style={{ backgroundColor: '#B9E2A7', borderRadius: 10, padding: 20 }}>
+                        <Text>Click Here to Add a New Medicine</Text>
+                    </View>
+                </TouchableOpacity>
 
-            <Modal isVisible={medicineAdderVisible} onBackdropPress={hideMedicineAdder} style={{ flex: 1 }}>
+                <Modal isVisible={medicineAdderVisible} onBackdropPress={hideMedicineAdder} style={{ flex: 1 }}>
                     <View style={{ flexDirection: 'column', alignItems: 'center', height: 465, backgroundColor: "white", borderRadius: 20 }}>
-                    <CustomText style={{padding: 20, fontSize: 26, paddingTop: 30, paddingBottom: -10}}>Select A New Medicine:</CustomText>
+                        <CustomText style={{ padding: 20, fontSize: 26, paddingTop: 30, paddingBottom: -10 }}>Select A New Medicine:</CustomText>
 
-                                <Picker
-                                    selectedValue={medicineToAdd}
-                                    onValueChange={(itemValue) => setMedicineToAdd(itemValue)}
-                                    style={{ width: 300 }}
-                                >
-                                    {medicineData.map((medicine, index) => (
-                                        <Picker.Item key={index} label={medicine.name} value={medicine.name} />
-                                    ))}
-                                </Picker>
-                                
-                                <CustomText style={{fontSize: 20}}>Enter time to take medicine:</CustomText>
-                                <TextInput
-        placeholder='time to take medicine'
-        value={takeByData}
-        onChangeText={(text) => setTakeByData(text)}
-        style={{
-            height: 40,
-            borderColor: 'gray',
-            borderWidth: 1,
-            marginTop: 10,
-            padding: 10,
-          }}
-      />
-      <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between', paddingTop: 10}}>
-<TouchableOpacity onPress={(e) => {hideMedicineAdder();}} style={{ paddingTop: 15 }}>
-                            <View style={{ backgroundColor: '#ff7f7f', borderRadius: 10, padding: 20 }}>
-                                <CustomText>Cancel</CustomText>
-                            </View>
-                        </TouchableOpacity>
-                        <CustomText style={{padding: 10}}></CustomText>
-                                <TouchableOpacity onPress={(e) => {hideMedicineAdder(); handleAddMedicine(e); fetchUserMedicineData();}} style={{ paddingTop: 15 }}>
-                            <View style={{ backgroundColor: 'lightgreen', borderRadius: 10, padding: 20 }}>
-                                <CustomText>Add</CustomText>
-                            </View>
-                        </TouchableOpacity>
-         
-                            </View>
-                            </View>
+                        <Picker
+                            selectedValue={medicineToAdd}
+                            onValueChange={(itemValue) => setMedicineToAdd(itemValue)}
+                            style={{ width: 300 }}
+                        >
+                            {medicineData.map((medicine, index) => (
+                                <Picker.Item key={index} label={medicine.name} value={medicine.name} />
+                            ))}
+                        </Picker>
+
+                        <CustomText style={{ fontSize: 20 }}>Enter time to take medicine:</CustomText>
+                        <TextInput
+                            placeholder='time to take medicine'
+                            value={takeByData}
+                            onChangeText={(text) => setTakeByData(text)}
+                            style={{
+                                height: 40,
+                                borderColor: 'gray',
+                                borderWidth: 1,
+                                marginTop: 10,
+                                padding: 10,
+                            }}
+                        />
+                        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', paddingTop: 10 }}>
+                            <TouchableOpacity onPress={(e) => { hideMedicineAdder(); }} style={{ paddingTop: 15 }}>
+                                <View style={{ backgroundColor: '#ff7f7f', borderRadius: 10, padding: 20 }}>
+                                    <CustomText>Cancel</CustomText>
+                                </View>
+                            </TouchableOpacity>
+                            <CustomText style={{ padding: 10 }}></CustomText>
+                            <TouchableOpacity onPress={(e) => { hideMedicineAdder(); handleAddMedicine(e); fetchUserMedicineData(); }} style={{ paddingTop: 15 }}>
+                                <View style={{ backgroundColor: 'lightgreen', borderRadius: 10, padding: 20 }}>
+                                    <CustomText>Add</CustomText>
+                                </View>
+                            </TouchableOpacity>
+
+                        </View>
+                    </View>
                 </Modal>
-                </View>
-            {/* <CustomText style={{ fontSize: 20, padding: 20, color: '#F90D0D' }}>Take by 9:00 PM</CustomText>
-            <View style={{ flexDirection: 'row', margin: 10, backgroundColor: '#E50008' }}>
-                <CustomText style={{ color: 'blue', padding: 10, fontSize: 26, borderRadius: 15 }}>Carprofen</CustomText>
             </View>
-            <View style={{ flexDirection: 'row' }}>
-                <Image source={alarmOffImg} style={{ width: 35, height: 35 }} />
-                <CustomText size={15} weight="bold" color='#F90D0D' style={{ fontSize: 15, color: '#F90D0D', padding: 10 }}>Turn on Notifier</CustomText>
-            </View> */}
         </View >
     );
 

@@ -97,7 +97,7 @@ export default function MainContainer(){
                 <CustomText style={{padding: 20}}></CustomText>
                 <View style={{padding: 15, backgroundColor: "#f6c59e", borderRadius: 20}}>
                 <TouchableOpacity onPress={nextPage} style={{justifyContent: 'center'}}>
-                <CustomText style={{fontSize:26, fontWeight: 'bold', paddingTop: 10, paddingBottom: 10, alignItems: "center", color: "#black"}}>Get Started</CustomText>
+                <CustomText style={{fontSize:26, fontWeight: 'bold', paddingTop: 10, paddingBottom: 10, alignItems: "center", color: "black"}}>Get Started</CustomText>
                 </TouchableOpacity>
                 </View>
             </>
