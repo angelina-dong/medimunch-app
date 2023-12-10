@@ -42,8 +42,7 @@ To run on a simulator, press ‘i’ for iOS or 'a' for Android. To run on a phy
 <br>
 <br>
 <div style="display: flex; justify-content: center;">
-<img src="https://cdn.discordapp.com/attachments/1162101647653208155/1183350303966380072/IMG_7370.PNG?ex=658803da&is=65758eda&hm=d5d871f948f5db8aec7ccfb69cb08010a70251cc993872e53f1b85f0e23a167b&
-" alt="Setting Timer" width="200">
+<img src="https://cdn.discordapp.com/attachments/1162101647653208155/1183350303966380072/IMG_7370.PNG?ex=658803da&is=65758eda&hm=d5d871f948f5db8aec7ccfb69cb08010a70251cc993872e53f1b85f0e23a167b&" alt="Setting Timer" width="200">
 
 <img src="https://cdn.discordapp.com/attachments/1162101647653208155/1183350304461295727/IMG_7372.PNG?ex=658803da&is=65758eda&hm=b1b23d2daf8678f166ddc8196db5eb9c1587d3d9d79961eca02700cd72f8aa18&" alt="Timer Over Notification" width="200">
 </div>
