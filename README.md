@@ -36,8 +36,9 @@ To run on a simulator, press ‘i’ for iOS or 'a' for Android. To run on a phy
 
 <div style="display: flex; justify-content: center;">
 <img src="https://cdn.discordapp.com/attachments/1162101647653208155/1183350304423551047/IMG_7365.PNG?ex=658803da&is=65758eda&hm=161ba521e5a6d8ae8f409a30bfc4f189b4ec3ce82ed64b365b102a692695b69d&" alt="Initial Home Screen" width="200"> 
-<Text style="display: flex; align-items: center; margin-left: 60"> <- This is what the Home Screen looks like. Users can set a timer to keep track of how long their treats need to be in the treat mold for. </Text>
 </div>
+<br>
+<Text style="display: flex; align-items: center;">This is what the Home Screen looks like. Users can set a timer to keep track of how long their treats need to be in the treat mold for. </Text>
 <br>
 <br>
 <div style="display: flex; justify-content: center;">
@@ -62,10 +63,10 @@ To see reminders of when to take each medicine, users can click on the purple bo
 <br>
 <br>
 <div style="display: flex; justify-content: center;">
-<Text style="display: flex; align-items: center; margin-right: 60">Users can also add new medicines from the database to the list of their dog's medicines. Users do this my choosing the medicine and entering the daily time their dog should be taking the medicine at. -> </Text>
 <img src="https://cdn.discordapp.com/attachments/1162101647653208155/1183350304704569344/IMG_7367.PNG?ex=658803da&is=65758eda&hm=f5df78781f94f66661168a0ac708793c0493610f49318729dda46b48853db4d8&" alt="Adding a Medicine" width="200">
 </div>
 <br>
+<Text style="display: flex; align-items: center;">Users can also add new medicines from the database to the list of their dog's medicines. Users do this by choosing the medicine and entering the daily time their dog should be taking the medicine at.</Text>
 <br>
 <br>
 <div style="display: flex; justify-content: center;">
@@ -83,8 +84,9 @@ The screens above represent the medication information screen. Users can search 
 <br>
 <div style="display: flex; justify-content: center;">
 <img src="https://cdn.discordapp.com/attachments/1162101647653208155/1183350303962177566/IMG_7361.PNG?ex=658803da&is=65758eda&hm=25e10d98673494170ecbee0dc638061c0e26c6b0aebffb28a0b9a75586810875&" alt="Calendar Screen" width="200">
-<Text style="display: flex; align-items: center; margin-left: 60"> <- This is what the Calendar Screen looks like. Users can set dates for when each medicine was taken. Dark green = start date, dark red = end date, light green = took medicine that day, light red = didn't take medicine that day. Also, by clicking on the orange box with the medicine name in it, users can toggle between their different medicine trackers.*96 </Text>
 </div>
+<br>
+<Text style="display: flex; align-items: center; margin-left: 60">This is what the Calendar Screen looks like. Users can set dates for when each medicine was taken. Dark green = start date, dark red = end date, light green = took medicine that day, light red = didn't take medicine that day. Also, by clicking on the orange box with the medicine name in it, users can toggle between their different medicine trackers. </Text>
 
 #### Click [here](https://drive.google.com/file/d/1N65f9YDA3cTiS2l_PymY7GYPokW2z4lo/view?usp=sharing) for a quick video walkthrough of the app and its features.
 
